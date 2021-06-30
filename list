@@ -1,0 +1,181 @@
+#include <iostream>
+
+using namespace std;
+
+
+struct Node {
+    int val;
+    Node* next;
+
+    Node(int _val) : val(_val), next(nullptr) {}
+};
+
+struct list {
+    Node* first;
+    Node* last;
+
+    list() : first(nullptr), last(nullptr) {}
+
+    bool is_empty() {
+        return first == nullptr;
+    }
+
+    void push_back(int _val) {
+        Node* p = new Node(_val);
+        if (is_empty()) {
+            first = p;
+            last = p;
+            return;
+        }
+        last->next = p;
+        last = p;
+    }
+
+    void print() { // void show
+        if (is_empty()) return;
+        Node* p = first;
+        while (p) {
+            cout << p->val << " ";
+            p = p->next;
+        }
+        cout << endl;
+    }
+
+    Node* find(int _val) {
+        Node* p = first;
+        while (p && p->val != _val) p = p->next;
+        return (p && p->val == _val) ? p : nullptr;
+    }
+
+    void remove_first() {
+        if (is_empty()) return;
+        Node* p = first;
+        first = p->next;
+        delete p;
+    }
+
+    void remove_last() {
+        if (is_empty()) return;
+        if (first == last) {
+            remove_first();
+            return;
+        }
+        Node* p = first;
+        while (p->next != last) p = p->next;
+        p->next = nullptr;
+        delete last;
+        last = p;
+    }
+
+    void remove(int _val) {
+        if (is_empty()) return;
+        if (first->val == _val) {
+            remove_first();
+            return;
+        }
+        else if (last->val == _val) {
+            remove_last();
+            return;
+        }
+        Node* slow = first;
+        Node* fast = first->next;
+        while (fast && fast->val != _val) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        if (!fast) {
+            cout << "This element does not exist" << endl;
+            return;
+        }
+        slow->next = fast->next;
+        delete fast;
+    }
+
+    Node* operator[] (const int index) {
+        if (is_empty()) return nullptr;
+        Node* p = first;
+        for (int i = 0; i < index; i++) {
+            p = p->next;
+            if (!p) return nullptr;
+        }
+        return p;
+    }
+
+    void init(Node *node){
+        node->val=0;
+    }
+
+    void rShiftMas(Node *head,int n)
+    {Node *t, *p;
+     if (head==NULL) ;
+      else if (head->next==NULL);
+     else
+     {p=first;
+      while(p->next!=NULL)
+      {t=p;
+       p=p->next;
+      }
+      t->next=NULL;
+      p->next=first;
+      first=p;
+      Node* zero = first;
+      for(int i=1;i<=n;++i){
+          init(zero);
+          zero=zero->next;
+      }
+     }
+    }
+};
+
+void test1(){
+    list l;
+    l.push_back(3);
+    l.push_back(123);
+    l.push_back(8);
+    l.print();
+    Node* nd = l.find(123);
+    l.init(nd);
+    l.print();
+
+}
+
+void test2(){
+    list l;
+    l.push_back(3);
+    l.push_back(123);
+    l.push_back(8);
+    l.push_back(1234);
+    l.print();
+    l.rShiftMas(l.first,2);
+}
+
+int main()
+{
+   /* list l;
+    cout << l.is_empty() << endl;
+    l.push_back(3);
+    l.push_back(123);
+    l.push_back(8);
+    l.print();
+    cout << l.is_empty() << endl;
+    l.remove(123);
+    l.print();
+    l.push_back(1234);
+    l.remove_first();
+    l.print();
+    l.remove_last();
+    l.print();
+    l.push_back(123);
+    Node* nd = l.find(123);
+    l.init(nd);
+    cout << l[0]->val << endl; //linked list test
+    l.push_back(3);
+    l.push_back(123);
+    l.push_back(8);
+    l.print();
+    l.rShiftMas(l.first,2);
+    l.print();*/
+    test1();
+    test2();
+
+}
